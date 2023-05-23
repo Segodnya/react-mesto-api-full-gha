@@ -1,0 +1,30 @@
+{
+  "name": "express-mesto-gha",
+  "author": "Kirill Kurentsov <kurentsov.k@gmail.com> (https://github.com/Segodnya)",
+  "version": "0.1.0",
+  "description": "Mesto Web Application's Back-End with Express and MongoDB",
+  "private": true,
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "celebrate": "^15.0.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "helmet": "^6.1.5",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.6.5",
+    "validator": "^13.7.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ./",
+    "lint:fix": "npx eslint ./ --fix"
+  },
+  "homepage": "https://segodnya.github.io/express-mesto-gha#readme",
+  "devDependencies": {
+    "eslint": "^8.39.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "nodemon": "^2.0.22"
+  }
+}
