@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import api from "../utils/api";
-import * as auth from "../utils/auth";
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
-import ImagePopup from "./ImagePopup";
-import AddPlacePopup from "./AddPlacePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import EditProfilePopup from "./EditProfilePopup";
-import PopupWithConfirm from "./PopupWithConfitm";
-import ProtectedRoute from "./ProtectedRoute";
-import Login from "./Login";
-import Register from "./Register";
-import InfoTooltip from "./InfoTooltip";
-import CurrentUserContext from "../contexts/CurrentUserContext";
-import successImage from "../images/success-image.svg";
-import unsuccessImage from "../images/unsuccess-image.svg";
+import { useEffect, useState } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import api from '../utils/api';
+import * as auth from '../utils/auth';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
+import ImagePopup from './ImagePopup';
+import AddPlacePopup from './AddPlacePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import EditProfilePopup from './EditProfilePopup';
+import PopupWithConfirm from './PopupWithConfitm';
+import ProtectedRoute from './ProtectedRoute';
+import Login from './Login';
+import Register from './Register';
+import InfoTooltip from './InfoTooltip';
+import CurrentUserContext from '../contexts/CurrentUserContext';
+import successImage from '../images/success-image.svg';
+import unsuccessImage from '../images/unsuccess-image.svg';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,13 +29,7 @@ function App() {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [isImageOpen, setIsImageOpen] = useState(false);
-  const isPopupOpen =
-    isEditProfilePopupOpen ||
-    isAddPlacePopupOpen ||
-    isEditAvatarPopupOpen ||
-    isInfoTooltipPopupOpen ||
-    isConfirmPopupOpen ||
-    isImageOpen;
+  const isPopupOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isInfoTooltipPopupOpen || isConfirmPopupOpen || isImageOpen;
 
   // Создайте стейт currentUser в корневом компоненте
   const [currentUser, setCurrentUser] = useState({});
@@ -44,20 +38,20 @@ function App() {
   const [isLoadingPopupPlace, setIsLoadingPopupPlace] = useState(false);
   const [isLoadingPopupAvatar, setIsLoadingPopupAvatar] = useState(false);
   const [isLoadingPopupConfirm, setIsLoadingPopupConfirm] = useState(false);
-  const [profileEmail, setProfileEmail] = useState("");
-  const [removedCardId, setRemovedCardId] = useState("");
+  const [profileEmail, setProfileEmail] = useState('');
+  const [removedCardId, setRemovedCardId] = useState('');
   const navigate = useNavigate();
 
   // Проверка токена и авторизация пользователя
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
+    const jwt = localStorage.getItem('jwt');
     if (jwt) {
       auth
         .getContent(jwt)
         .then((res) => {
           if (res) {
             setIsLoggedIn(true);
-            navigate("/");
+            navigate('/');
             setProfileEmail(res.data.email);
           }
         })
@@ -83,13 +77,8 @@ function App() {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     try {
-      const resChangeLikeStatus = await api.changeLikeCardStatus(
-        card,
-        !isLiked
-      );
-      setCards((state) =>
-        state.map((c) => (c._id === card._id ? resChangeLikeStatus : c))
-      );
+      const resChangeLikeStatus = await api.changeLikeCardStatus(card, !isLiked);
+      setCards((state) => state.map((c) => (c._id === card._id ? resChangeLikeStatus : c)));
     } catch (e) {
       console.warn(e);
     }
@@ -99,9 +88,7 @@ function App() {
     setIsLoadingPopupConfirm(true);
     try {
       await api.deleteCard(card._id);
-      setCards((arrayCardsUpdated) =>
-        arrayCardsUpdated.filter((item) => card._id !== item._id)
-      );
+      setCards((arrayCardsUpdated) => arrayCardsUpdated.filter((item) => card._id !== item._id));
       closeAllPopups();
     } catch (e) {
       console.warn(e);
@@ -184,7 +171,7 @@ function App() {
       .then((res) => {
         if (res) {
           setisSuccessTooltipStatus(true);
-          navigate("/sign-in");
+          navigate('/sign-in');
         }
       })
       .catch((err) => {
@@ -203,9 +190,9 @@ function App() {
       .then((res) => {
         if (res) {
           setIsLoggedIn(true);
-          localStorage.setItem("jwt", res.token);
+          localStorage.setItem('jwt', res.token);
           setProfileEmail(email);
-          navigate("/");
+          navigate('/');
         }
       })
       .catch((err) => {
@@ -218,21 +205,21 @@ function App() {
   // Выход
   const handleSignOut = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem("jwt");
-    navigate("/sign-in");
+    localStorage.removeItem('jwt');
+    navigate('/sign-in');
   };
 
   // Закрытие поп-апа по клавише Esc
   useEffect(() => {
     function closeByEsc(evt) {
-      if (evt.key === "Escape") {
+      if (evt.key === 'Escape') {
         closeAllPopups();
       }
     }
     if (isPopupOpen) {
-      document.addEventListener("keydown", closeByEsc);
+      document.addEventListener('keydown', closeByEsc);
       return () => {
-        document.removeEventListener("keydown", closeByEsc);
+        document.removeEventListener('keydown', closeByEsc);
       };
     }
   }, [isPopupOpen]);
@@ -246,15 +233,9 @@ function App() {
         <div className="page__content">
           <Header onSignOut={handleSignOut} userEmail={profileEmail} />
           <Routes>
-            <Route
-              path="/sign-in"
-              element={<Login onAuthorize={handleAuthorize} />}
-            />
+            <Route path="/sign-in" element={<Login onAuthorize={handleAuthorize} />} />
 
-            <Route
-              path="/sign-up"
-              element={<Register onRegister={handleRegister} />}
-            />
+            <Route path="/sign-up" element={<Register onRegister={handleRegister} />} />
 
             <Route
               path="*"
@@ -277,51 +258,22 @@ function App() {
 
           <Footer />
 
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onAddPlace={handleAddPlace}
-            isLoading={isLoadingPopupPlace}
-          />
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace} isLoading={isLoadingPopupPlace} />
 
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUserUpdate}
-            isLoading={isLoadingPopupProfile}
-          />
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} isLoading={isLoadingPopupProfile} />
 
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleAvatarUpdate}
-            isLoading={isLoadingPopupAvatar}
-          />
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleAvatarUpdate} isLoading={isLoadingPopupAvatar} />
 
-          <ImagePopup
-            onClose={closeAllPopups}
-            card={selectedCard}
-            isImageOpen={isImageOpen}
-          />
+          <ImagePopup onClose={closeAllPopups} card={selectedCard} isImageOpen={isImageOpen} />
 
           <InfoTooltip
             isOpen={isInfoTooltipPopupOpen}
             onClose={closeAllPopups}
-            text={
-              isSuccessTooltipStatus
-                ? "Вы успешно зарегистрировались!"
-                : "Что-то пошло не так! Попробуйте ещё раз."
-            }
+            text={isSuccessTooltipStatus ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}
             image={isSuccessTooltipStatus ? successImage : unsuccessImage}
           />
 
-          <PopupWithConfirm
-            isOpen={isConfirmPopupOpen}
-            onClose={closeAllPopups}
-            onSubmit={handleCardDelete}
-            card={removedCardId}
-            isLoading={isLoadingPopupConfirm}
-          />
+          <PopupWithConfirm isOpen={isConfirmPopupOpen} onClose={closeAllPopups} onSubmit={handleCardDelete} card={removedCardId} isLoading={isLoadingPopupConfirm} />
         </div>
       </div>
     </CurrentUserContext.Provider>

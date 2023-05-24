@@ -1,4 +1,4 @@
-export const BASE_URL = "https://auth.nomoreparties.co";
+export const BASE_URL = 'https://api.segodnya.nomoredomains.icu';
 
 const handleResponse = (res) => {
   if (res.ok) {
@@ -9,10 +9,10 @@ const handleResponse = (res) => {
 
 export const register = async (email, password) => {
   const res = await fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   });
@@ -21,10 +21,10 @@ export const register = async (email, password) => {
 
 export const authorize = async (email, password) => {
   const res = await fetch(`${BASE_URL}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   });
@@ -33,10 +33,10 @@ export const authorize = async (email, password) => {
 
 export const getContent = async (token) => {
   const res = await fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   });
