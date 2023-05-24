@@ -1,4 +1,4 @@
-const allowedCors = ['https://segodnya.nomoredomains.icu', 'http://segodnya.nomoredomains.icu', 'https://localhost:3000', 'http://localhost:3000'];
+const allowedCors = ['https://segodnya.nomoredomains.icu', 'http://segodnya.nomoredomains.icu', 'https://127.0.0.1:3000', 'http://127.0.0.1:3000'];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
