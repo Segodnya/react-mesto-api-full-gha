@@ -35,11 +35,12 @@ class Api {
   // Редактирование профиля
   async editUserInfo(data) {
     return await this._request(`${this._baseUrl}/users/me`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about,
+        email: data.email,
       }),
     });
   }
@@ -47,7 +48,7 @@ class Api {
   // Добавление новой карточки
   async addCard(data) {
     return await this._request(`${this._baseUrl}/cards`, {
-      method: 'POST',
+      method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
     });
@@ -56,7 +57,7 @@ class Api {
   // Удаление карточки с сервера
   async deleteCard(cardId) {
     return await this._request(`${this._baseUrl}/cards/${cardId}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: this._headers,
     });
   }
@@ -64,14 +65,14 @@ class Api {
   // Постановка и снятие лайка
   async addLike(cardId) {
     return await this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: 'PUT',
+      method: "PUT",
       headers: this._headers,
     });
   }
 
   async removeLike(cardId) {
     return await this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: this._headers,
     });
   }
@@ -84,7 +85,7 @@ class Api {
   // Обновление аватара пользователя:
   async updateUserAvatar(data) {
     return await this._request(`${this._baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar,
@@ -94,11 +95,12 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://api.segodnya.nomoredomains.icu',
+  // baseUrl: 'https://api.segodnya.nomoredomains.icu',
+  baseUrl: "http://localhost:3000",
   headers: {
     // authorization: "38c8a8c8-7306-4445-b79c-2958495ffcfd",
-    authorization: `Bearer ${localStorage.getItem('jwt')}`,
-    'Content-Type': 'application/json',
+    authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    "Content-Type": "application/json",
   },
 });
 

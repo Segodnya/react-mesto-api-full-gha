@@ -1,12 +1,12 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
-const User = require('../models/user');
-const { SUCCESS_CREATED_CODE } = require('../utils/constants');
-const BadRequestError = require('../utils/errors/badRequestError');
-const ConflictError = require('../utils/errors/conflictError');
-const UnauthorizedError = require('../utils/errors/unauthorizedError');
-const NotFoundError = require('../utils/errors/notFoundError');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+const User = require("../models/user");
+const { SUCCESS_CREATED_CODE } = require("../utils/constants");
+const BadRequestError = require("../utils/errors/badRequestError");
+const ConflictError = require("../utils/errors/conflictError");
+const UnauthorizedError = require("../utils/errors/unauthorizedError");
+const NotFoundError = require("../utils/errors/notFoundError");
 
 module.exports.getUsers = async (req, res, next) => {
   User.find({})
@@ -20,13 +20,14 @@ const findUser = (id, res, next) => {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.DocumentNotFoundError) {
-        return next(new NotFoundError('Пользователь не найден'));
+        return next(new NotFoundError("Пользователь не найден"));
       }
       return next(err);
     });
 };
 
-module.exports.getUser = (req, res, next) => findUser(req.params.userId, res, next);
+module.exports.getUser = (req, res, next) =>
+  findUser(req.params.userId, res, next);
 module.exports.getMe = (req, res, next) => findUser(req.user._id, res, next);
 
 module.exports.createUser = (req, res, next) => {
@@ -46,11 +47,13 @@ module.exports.createUser = (req, res, next) => {
         return res.status(SUCCESS_CREATED_CODE).send(userNoPassword);
       })
       .catch((err) => {
-        if (err.name === 'ValidationError') {
-          return next(new BadRequestError('Переданы не валидные данные'));
+        if (err.name === "ValidationError") {
+          return next(new BadRequestError("Переданы не валидные данные"));
         }
         if (err.code === 11000) {
-          return next(new ConflictError('Пользователь с данным email уже зарегистрирован'));
+          return next(
+            new ConflictError("Пользователь с данным email уже зарегистрирован")
+          );
         }
         return next(err);
       });
@@ -61,16 +64,18 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findOne({ email })
-    .select('+password')
+    .select("+password")
     .then((user) => {
       if (!user) {
-        return next(new UnauthorizedError('Неверная почта или пароль'));
+        return next(new UnauthorizedError("Неверная почта или пароль"));
       }
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return next(new UnauthorizedError('Неверная почта или пароль'));
+          return next(new UnauthorizedError("Неверная почта или пароль"));
         }
-        const token = jwt.sign({ _id: user._id }, 'some-secret-string', { expiresIn: '7d' });
+        const token = jwt.sign({ _id: user._id }, "some-secret-string", {
+          expiresIn: "7d",
+        });
         return res.send({ token });
       });
     })
@@ -83,11 +88,13 @@ const updateUser = (id, data, res, next) => {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.DocumentNotFoundError) {
-        return next(new NotFoundError('Пользователь не найден.'));
+        return next(new NotFoundError("Пользователь не найден."));
       }
       return next(err);
     });
 };
 
-module.exports.updateUserName = (req, res, next) => updateUser(req.user._id, req.body, res, next);
-module.exports.updateUserAvatar = (req, res, next) => updateUser(req.user._id, req.body, res, next);
+module.exports.updateUserName = (req, res, next) =>
+  updateUser(req.user._id, req.body, res, next);
+module.exports.updateUserAvatar = (req, res, next) =>
+  updateUser(req.user._id, req.body, res, next);
