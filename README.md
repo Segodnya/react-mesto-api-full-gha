@@ -8,11 +8,11 @@
 
 ## Ссылки на проект
 
-IP x.x.x.x
+IP 158.160.26.188
 
-Frontend https://...
+Frontend https://segodnya.nomoredomains.rocks
 
-Backend https://...
+Backend https://api.segodnya.nomoredomains.rocks
 
 ## TODO
 

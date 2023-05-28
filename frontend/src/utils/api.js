@@ -95,8 +95,8 @@ class Api {
 }
 
 const api = new Api({
-  // baseUrl: 'https://api.segodnya.nomoredomains.icu',
-  baseUrl: "http://localhost:3000",
+  baseUrl: "https://api.segodnya.nomoredomains.rocks",
+  // baseUrl: "http://localhost:3000",
   headers: {
     // authorization: "38c8a8c8-7306-4445-b79c-2958495ffcfd",
     authorization: `Bearer ${localStorage.getItem("jwt")}`,

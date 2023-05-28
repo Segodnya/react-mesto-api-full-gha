@@ -1,6 +1,6 @@
 const allowedCors = [
-  "https://segodnya.nomoredomains.icu",
-  "http://segodnya.nomoredomains.icu",
+  "https://api.segodnya.nomoredomains.rocks",
+  "http://segodnya.nomoredomains.rocks",
   "https://127.0.0.1:3000",
   "http://127.0.0.1:3000",
   "http://localhost:3001",
