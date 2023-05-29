@@ -21,14 +21,20 @@ class Api {
   // Загрузка информации о пользователе с сервера
   async getCurrentUserInfo() {
     return await this._request(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
     });
   }
 
   // Загрузка карточек с сервера
   async getInitialCards() {
     return await this._request(`${this._baseUrl}/cards`, {
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
     });
   }
 
@@ -36,7 +42,10 @@ class Api {
   async editUserInfo(data) {
     return await this._request(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -49,7 +58,10 @@ class Api {
   async addCard(data) {
     return await this._request(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     });
   }
@@ -96,9 +108,7 @@ class Api {
 
 const api = new Api({
   baseUrl: "https://api.segodnya.nomoredomains.rocks",
-  // baseUrl: "http://localhost:3000",
   headers: {
-    // authorization: "38c8a8c8-7306-4445-b79c-2958495ffcfd",
     authorization: `Bearer ${localStorage.getItem("jwt")}`,
     "Content-Type": "application/json",
   },
