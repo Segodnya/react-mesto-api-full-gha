@@ -8,6 +8,8 @@ const ConflictError = require('../utils/errors/conflictError');
 const UnauthorizedError = require('../utils/errors/unauthorizedError');
 const NotFoundError = require('../utils/errors/notFoundError');
 
+const { JWT_SECRET } = process.env;
+
 module.exports.getUsers = async (req, res, next) => {
   User.find({})
     .then((users) => res.send(users))
@@ -50,9 +52,7 @@ module.exports.createUser = (req, res, next) => {
           return next(new BadRequestError('Переданы не валидные данные'));
         }
         if (err.code === 11000) {
-          return next(
-            new ConflictError('Пользователь с данным email уже зарегистрирован'),
-          );
+          return next(new ConflictError('Пользователь с данным email уже зарегистрирован'));
         }
         return next(err);
       });
@@ -72,16 +72,9 @@ module.exports.login = (req, res, next) => {
         if (!matched) {
           return next(new UnauthorizedError('Неверная почта или пароль'));
         }
-        const token = jwt.sign(
-          { _id: user._id },
-          'some-secret-string',
-          // process.env.NODE_ENV === "production"
-          //   ? JWT_SECRET
-          //   : "some-secret-string",
-          {
-            expiresIn: '7d',
-          },
-        );
+        const token = jwt.sign({ _id: user._id }, process.env.NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-string', {
+          expiresIn: '7d',
+        });
         return res.send({ token });
       });
     })
