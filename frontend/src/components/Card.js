@@ -5,8 +5,8 @@ const Card = ({ onCardClick, card, onCardLike, onCardDelete }) => {
   // подписываем функциональный компонент на CurrentUserContext
   // и получаем значение контекста
   const user = useContext(CurrentUserContext);
-  const isOwn = card.owner._id === user._id;
-  const isLiked = card.likes.some((i) => i._id === user._id);
+  const isOwn = card.owner === user._id;
+  const isLiked = card.likes.some((id) => id === user._id);
   const cardLikeButtonClassName = `button content__like-button ${
     isLiked ? "content__like-button_active" : ""
   }`;

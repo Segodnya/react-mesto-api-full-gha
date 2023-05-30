@@ -70,7 +70,10 @@ class Api {
   async deleteCard(cardId) {
     return await this._request(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
     });
   }
 
@@ -78,14 +81,20 @@ class Api {
   async addLike(cardId) {
     return await this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "PUT",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
     });
   }
 
   async removeLike(cardId) {
     return await this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
     });
   }
 
@@ -98,7 +107,10 @@ class Api {
   async updateUserAvatar(data) {
     return await this._request(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         avatar: data.avatar,
       }),
@@ -107,7 +119,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://api.segodnya.nomoredomains.rocks",
+  baseUrl: "http://localhost:3000",
   headers: {
     authorization: `Bearer ${localStorage.getItem("jwt")}`,
     "Content-Type": "application/json",

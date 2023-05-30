@@ -1,16 +1,12 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
-const {
-  DEFAULT_SUCCESS_CODE,
-  SUCCESS_CREATED_CODE,
-} = require('../utils/constants');
+const { DEFAULT_SUCCESS_CODE, SUCCESS_CREATED_CODE } = require('../utils/constants');
 const BadRequestError = require('../utils/errors/badRequestError');
 const NotFoundError = require('../utils/errors/notFoundError');
 const ForbiddenError = require('../utils/errors/forbiddenError');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .populate(['owner', 'likes'])
     .then((cards) => res.status(DEFAULT_SUCCESS_CODE).send(cards))
     .catch(next);
 };
@@ -51,11 +47,7 @@ module.exports.deleteCard = (req, res, next) => {
 const updateLikes = async (req, res, next, update) => {
   try {
     // eslint-disable-next-line max-len
-    const updatedCard = await Card.findByIdAndUpdate(
-      req.params.cardId,
-      update,
-      { new: true },
-    ).orFail();
+    const updatedCard = await Card.findByIdAndUpdate(req.params.cardId, update, { new: true }).orFail();
     res.status(DEFAULT_SUCCESS_CODE).send(updatedCard);
   } catch (err) {
     if (err instanceof mongoose.Error.DocumentNotFoundError) {

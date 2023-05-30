@@ -1,5 +1,4 @@
-export const BASE_URL = "https://api.segodnya.nomoredomains.rocks";
-// export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = "http://localhost:3000";
 
 const handleResponse = (res) => {
   if (res.ok) {
